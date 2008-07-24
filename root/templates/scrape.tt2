@@ -1,0 +1,36 @@
+[% META
+    title = 'Result'
+-%]
+
+<h1>KML Maker</h1>
+
+<div class="kmlLink">
+    <a href="[% kml_url | html %]">KML</a><br />
+    <a href="http://maps.google.com/maps?q=[% kml_url | html %]" target="_blank">Googleマップで表示する</a>
+</div>
+
+<h2>Scraping Result</h2>
+
+<div class="result">
+    [% FOREACH item IN items %]
+    <div class="resultItem">
+        <dl>
+            <dt>URL</dt>
+            <dd>[% item.url | html %]</dd>
+            <dt>名前</dt>
+            <dd>[% item.name | html %]</dd>
+            <dt>住所</dt>
+            <dd>[% item.address | html %]</dd>
+            <dt>住所(extracted)</dt>
+            <dd>[% item.extracted | html %]</dd>
+            <dt>コメント</dt>
+            <dd>[% item.comment | html %]</dd>
+            <dt>緯度</dt>
+            <dd>[% item.lat | html %]</dd>
+            <dt>経度</dt>
+            <dd>[% item.lng | html %]</dd>
+        </dl>
+    </div>
+    [% END %]
+</div>
+

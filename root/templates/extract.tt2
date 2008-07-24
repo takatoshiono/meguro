@@ -1,0 +1,74 @@
+[% META
+    title = 'Extract'
+-%]
+
+<h1>KML Maker</h1>
+
+<div class="step">
+    <div class="procedure">
+    1. サンプルとなるURLを入力してください。
+    </div>
+
+    <div class="form">
+        <form class="post" action="[% c.uri_for('/extract') %]" method="get">
+        <label for="url">URL:</label><br />
+        <input class="text_field" type="text" name="url" /><br />
+        <input class="button_submit" type="submit" value="Start" />
+        </form>
+    </div>
+</div>
+
+<div class="step currentStep">
+    [% IF text_of.keys.size %]
+    <div class="procedure">
+    2. 住所、名前(任意)、コメント(任意)を選択してください。
+        [% IF c.form.has_error %]
+        [% IF c.form.invalid('item', 'NOT_MATCH') %]
+        <div class="error">
+        ゴメン！解析に失敗しちゃったorz<br />
+        もしよかったらそのURLを教えて！
+        </div>
+        [% ELSE %]
+        <div class="error">ちゃんと選択してね！</div>
+        [% END %]
+        [% END %]
+    </div>
+
+    <div class="form">
+        <form class="post" action="[% c.uri_for('/scrape_async') %]" method="post">
+        <table>
+            <tr>
+                <th></th>
+                <th>分類</th>
+                <th>テキスト</th>
+                <th>パス</th>
+            </tr>
+            [% FOREACH path IN text_of.keys.sort %]
+            <tr>
+                <td><input type="checkbox" name="path.[% loop.count %]" value="[% path | html %]" /></td>
+                <td>
+                    <select name="categ.[% loop.count %]">
+                        <option value="">---</option>
+                        <option value="address">住所</option>
+                        <option value="name">名前</option>
+                        <option value="comment">コメント</option>
+                    </select>
+                </td>
+                <td>[% text_of.$path | html %]</td>
+                <td>[% path | html %]</td>
+            </tr>
+            [% END %]
+        </table>
+        <div id="scrapeUrl">
+            <div class="click" onclick="addUrlInput('scrapeUrl');" ><img src="static/images/add.png" />URLを追加する</div>
+            <input class="text_field" type="text" name="url" /><br />
+        </div>
+        <input class="button_submit" type="submit" value="Make KML !!" />
+        <span class="warn">ちょっと時間がかかるよ！</span>
+        </form>
+    </div>
+    [% ELSE %]
+    <div class="error">URLの解析に失敗しました。</div>
+    [% END %]
+</div>
+

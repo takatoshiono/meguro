@@ -1,0 +1,4 @@
+#!/bin/sh
+
+exec /home/takatoshi/app/Meguro/script/kml_maker.pl
+

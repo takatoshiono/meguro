@@ -1,0 +1,7 @@
+<div id="header">[% PROCESS include/header %]</div>
+
+<div id="content">
+[% content %]
+</div>
+
+<div id="footer">[% PROCESS include/footer %]</div>

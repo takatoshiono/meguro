@@ -1,0 +1,20 @@
+[% META
+    title = 'Save As'
+-%]
+
+[% BLOCK head %]
+[% END %]
+
+<h1>KML Maker</h1>
+
+<h2>Save KML file as</h2>
+
+<div class="form">
+    <form class="post" action="[% c.uri_for('/save') %]" method="post">
+        <input type="hidden" name="f" value="[% f | html %]" />
+        <label for="title">Title:</label><br />
+        <input class="text_field" type="text" id="title" name="title" /><br />
+        <input type="submit" id="submit" name="submit" value="保存する" />
+    </form>
+</div>
+

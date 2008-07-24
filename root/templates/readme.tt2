@@ -1,0 +1,44 @@
+[% META
+    title = 'README'
+-%]
+
+<h1>README</h1>
+
+<div class="note">
+KML MakerはKML(Keyhole Markup Language)ファイルを作成するツールです。<br />
+KMLファイルがあればGoogleマップやGoogle Earth上にマーカーを表示させることができます。<br />
+</div>
+
+<div class="note">
+KML Makerでは情報をWebページから取得します。<br />
+典型的な例としては店舗一覧ページなどです。<br />
+住所と店舗名のような名前を特定できればKMLを作成可能です。<br />
+Webページは複数個を指定可能です。<br />
+</div>
+
+<div class="note">
+KML Makerでは以下のステップでKMLを作成します。
+</div>
+
+<ol>
+<li>(ユーザー)サンプルとなるWebページのURLを入力</li>
+<li>(システム)Webページの構造を解析して表示</li>
+<li>(ユーザー)住所、名前(任意)、コメント(任意)っぽい文字列が含まれている箇所を選択</li>
+<li>(ユーザー)同じ構造のWebページがあればURLを追加</li>
+<li>(システム)指定されたWebページから住所、名前等を取得、住所から経度緯度を取得してKMLを作成</li>
+</ol>
+
+<div class="note">
+住所と名前が同じ構造の場合は名前を選択できないので任意としてあります。
+その場合は住所を名前として使用します。
+</div>
+
+<div class="note">
+Webページの構造を自動で解析する都合上、ページによってはうまく解析できなかったり、
+解析できたとしても、名前、住所を取得して経度緯度を特定する過程で失敗することもあります。
+</div>
+
+<div class="note" id="contact">
+お問い合わせ等は<a href="mailto:takatoshi.ono@gmail.com">takatoshi.ono@gmail.com</a>までお願いします。
+</div>
+

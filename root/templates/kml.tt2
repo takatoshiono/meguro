@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://earth.google.com/kml/2.1">
+  <name></name>
+  <description></description>
+  [% FOREACH item IN items %]
+  [% IF item.lat && item.lng %]
+  <Placemark>
+    <name>[% item.name | html %]</name>
+    <description>
+      <![CDATA[
+      <p>[% item.address | html %]</p>
+      <p>[% item.comment | html %]</p>
+      <a href="[% item.url | html %]">[% item.url | html %]</a>
+      ]]>
+    </description>
+    <Point>
+      <coordinates>[% item.lng %],[% item.lat %],0</coordinates>
+    </Point>
+  </Placemark>
+  [% END %]
+  [% END %]
+</kml>

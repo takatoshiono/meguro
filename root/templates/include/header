@@ -1,0 +1,2 @@
+<a href="[% c.uri_for('/') %]">TOP</a> | 
+<a href="[% c.uri_for('/readme') %]">README</a>

@@ -1,0 +1,113 @@
+[% META
+    title = 'Result'
+-%]
+
+[% BLOCK head %]
+    <script src="[% c.uri_for('/static/js/jquery-1.2.1.js') %]" type="text/javascript"></script>
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAS2GR3nbO3xhKL2p1o_b5fBRPHsmlLL6wcQezZRl8E8AtCCqk4RSKdN0PdalrWPuHCQa-kH-nLv0s9Q" type="text/javascript"></script>
+<!--
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAS2GR3nbO3xhKL2p1o_b5fBT9SJLjQR6EqEOBXGourUWjvEagUxQtfTZnl8KTqmSLfutvmJZP7Xi_Rg" type="text/javascript"></script>
+//-->
+    <script type="text/javascript">
+    var timer;
+    var busy = false;
+    function getStatus() {
+        if (busy) { return }
+        busy = true;
+        var url = '[% c.uri_for('/status') %]' + '?jobstr=' + '[% jobstr %]';
+        $.getJSON(url, function(data) {
+            if (data.job_completed) {
+                clearInterval(timer);
+                $('#indicator').hide();
+                if (data.kml_file) {
+                    var kml_url = '[% c.uri_for('/static/kml/') %]' + data.kml_file;
+
+                    var el;
+
+                    el = $('#saveForm');
+                    el.append('<input type="hidden" name="f" value="' + data.kml_file + '" />');
+                    el.attr('action', "[% c.uri_for('/save') %]");
+
+                    el = $('#result');
+                    el.append('<p><a href="' + kml_url + '">KMLファイル</a>が作成できました！「<a href="javascript:void(0);" onclick="$(\'#saveFormContainer\').show()">名前を付けて保存</a>」してみんなで共有しましょう！</p>');
+                    //el.append('(<a href="[% c.uri_for('/save') %]' + '?f=' + data.kml_file + '">名前を付けて保存</a>)<br />');
+
+                    showGMap(kml_url);
+
+                    el = $('#showInGmaps');
+                    el.append('<a href="http://maps.google.com/maps?q=' + kml_url + '" target="_blank">Googleマップで表示する</a><br />');
+                }
+                else {
+                    $('#result').html('失敗しちゃった＞＜');
+                }
+            }
+            busy = false;
+        });
+    }
+
+    function showGMap(url) {
+        if (GBrowserIsCompatible()) {
+            var map = new GMap2(document.getElementById('mapCanvas'));
+            map.addControl(new GLargeMapControl());
+            map.addControl(new GMapTypeControl());
+            //map.setCenter(new GLatLng(37.996163, 137.197266), 5);
+            //map.addOverlay(new GGeoXml(url));
+
+            var lng = {min: 0, max: 0};
+            var lat = {min: 0, max: 0};
+
+            $.get(url, function(data) {
+                var coodinatesList = data.getElementsByTagName('coordinates');
+                for (var i = 0; i < coodinatesList.length; i++) {
+                    var str = coodinatesList[i].firstChild.nodeValue;
+                    var coordinates = str.split(',');
+                    var _lng = new Number(coordinates[0]);
+                    var _lat = new Number(coordinates[1]);
+                    if (lng.min == 0 || lng.min > _lng) { lng.min = _lng }
+                    if (lat.min == 0 || lat.min > _lat) { lat.min = _lat }
+                    if (lng.max == 0 || lng.max < _lng) { lng.max = _lng }
+                    if (lat.max == 0 || lat.max < _lat) { lat.max = _lat }
+                }
+
+                var bounds = new GLatLngBounds(new GLatLng(lat.max, lng.min), new GLatLng(lat.min, lng.max));
+                var center = bounds.getCenter();
+                var zoom = map.getBoundsZoomLevel(bounds);
+                map.setCenter(new GLatLng(center.lat(), center.lng()), zoom);
+                map.addOverlay(new GGeoXml(url));
+                map.enableScrollWheelZoom();
+            });
+        }
+    }
+
+    $(document).ready(function() {
+        getStatus();
+        timer = setInterval('getStatus()', 3000);
+    });
+
+    window.onunload = function() {
+        GUnload();
+    }
+    </script>
+[% END %]
+
+<h1>KML Maker</h1>
+
+<h2>Scraping Result</h2>
+
+<div id="indicator">
+    <img src="[% c.uri_for('/static/images/indicator.gif') %]" border="0" /><br />
+    <span class="message">結果を取得しています..</span>
+</div>
+
+<div id="result"></div>
+<div id="saveFormContainer" style="display: none">
+    <form id="saveForm" class="post" action="" method="post">
+        <input class="text_field" type="text" name="title" /><br />
+        <input type="submit" name="submit" value="保存" />
+    </form>
+</div>
+
+<div id="mapCanvas"></div>
+
+<div id="showInGmaps"></div>
+

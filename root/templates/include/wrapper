@@ -1,0 +1,1 @@
+[% content WRAPPER include/html + include/layout %]

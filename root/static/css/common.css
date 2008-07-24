@@ -1,0 +1,111 @@
+body {
+    text-align: center;
+}
+
+div#header,
+div#content,
+div#footer {
+    margin: auto;
+    text-align: left;
+    background-color: #fff;
+}
+
+/* --------------------------------------------------------------------------
+ * Header
+-------------------------------------------------------------------------- */
+
+div#header {
+    background-color: #eee;
+    padding: 0 5px;
+    border-bottom: 1px solid #aaa;
+}
+
+/* --------------------------------------------------------------------------
+ * Content
+-------------------------------------------------------------------------- */
+
+div#content {
+    margin: 10px 20px;
+}
+
+div.click {
+    cursor: pointer;
+}
+    div.click:hover {
+        text-decoration: underline;
+    }
+
+div.kmlLink {
+    text-align: center;
+}
+    div.kmlLink a {
+        font-size: 152%;
+    }
+
+div.note {
+    margin: 10px 0;
+}
+
+span.warn {
+    color: #f00;
+}
+
+/* --------------------------------------------------------------------------
+ * Footer
+-------------------------------------------------------------------------- */
+
+div#footer {
+    clear: both;
+    text-align: center;
+    padding: 0 5px;
+    border-top: 1px solid #aaa;
+    color: #aaa;
+}
+
+/* --------------------------------------------------------------------------
+ * Text Module
+-------------------------------------------------------------------------- */
+
+/* --------------------------------------------------------------------------
+ * Form Module
+-------------------------------------------------------------------------- */
+
+form.post input.text_field {
+    border: 1px solid #ccc;
+    padding: 5px;
+    width: 538px;
+    font-size: 152%;
+}
+
+form.post input.button_submit {
+    margin: 5px 0;
+}
+
+/* --------------------------------------------------------------------------
+ * Google Maps
+-------------------------------------------------------------------------- */
+
+div#mapCanvas {
+    width: auto;
+    height: 420px;
+    margin: 0 5px;
+}
+
+div#mapCells {
+    width: 860px;
+    margin: 10px 0px;
+}
+
+div.mapCell {
+    width: 380px;
+    height: 380px;
+}
+
+ul.mapThumnail {
+    list-style: none;
+}
+    ul.mapThumnail li {
+        margin: 5px;
+        float: left;
+    }
+

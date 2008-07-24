@@ -1,0 +1,57 @@
+[% META
+    title = 'TOP'
+-%]
+
+[% BLOCK head %]
+    <script src="[% c.uri_for('/static/js/jquery-1.2.1.js') %]" type="text/javascript"></script>
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAS2GR3nbO3xhKL2p1o_b5fBRPHsmlLL6wcQezZRl8E8AtCCqk4RSKdN0PdalrWPuHCQa-kH-nLv0s9Q" type="text/javascript"></script>
+<!--
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAS2GR3nbO3xhKL2p1o_b5fBT9SJLjQR6EqEOBXGourUWjvEagUxQtfTZnl8KTqmSLfutvmJZP7Xi_Rg" type="text/javascript"></script>
+//-->
+    <script type="text/javascript">
+    $(document).ready(function() {
+        var mapContainers = $('.mapCell');
+        for (var i=0; i < mapContainers.length; i++) {
+            var c = mapContainers[i];
+            var id = c.id;
+            var kml_id = id.split('_')[1];
+            var url = '[% c.uri_for('/kml') %]' + '?id=' + kml_id;
+            showGMap(url, id);
+        }
+    });
+    window.onunload = function() {
+        GUnload();
+    }
+    </script>
+[% END %]
+
+<h1>KML Maker</h1>
+
+<div class="step currentStep">
+    <div class="procedure">
+    1. サンプルとなるURLを入力してください。
+    </div>
+
+    <div class="form">
+        <form class="post" action="[% c.uri_for('/extract') %]" method="get">
+        <label for="url">URL:</label><br />
+        <input class="text_field" type="text" name="url" /><br />
+        <span class="note">(例: http://www.ippudo.com/shops/index.html)</span><br />
+        <input class="button_submit" type="submit" value="Start" />
+        </form>
+    </div>
+</div>
+
+<h2>これまでに作成されたKMLファイル(地図)</h2>
+
+<div id="mapCells">
+    <ul class="mapThumnail">
+        [% WHILE (k = kml.next) %]
+        <li>
+            <span class="mapTitle">[% k.title | html %]</span>
+            <div class="mapCell" id="map_[% k.id %]"></div>
+        </li>
+        [% END %]
+    </ul>
+</div>
+
